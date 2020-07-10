@@ -1,5 +1,5 @@
 package main
 
 func main() {
-	findARestaurant("Pizza", "Pune, India")
+	FindARestaurant("Pizza", "Pune, India")
 }
