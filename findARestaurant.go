@@ -10,7 +10,7 @@ import (
 var foursquare_client_id = "PQSPJYQ4ODOORBDB51EQTURIFOQT0PACPFQI2UN0G0P00DAF"
 var foursquare_client_secret = "3ZUE0PGPDY2KV4UFPWEQGLZ4GNDWC2PZHFTX40CKZTCIA3LP"
 
-func findARestaurant(mealType string, location string) {
+func FindARestaurant(mealType string, location string) {
 
 	latitude, longitude := GetGeocodeLocation(location)
 	lat := fmt.Sprintf("%f", latitude)
