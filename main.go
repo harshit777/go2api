@@ -1,5 +1,8 @@
 package main
 
+import "fmt"
+
 func main() {
-	GetGeocodeLocation("Dallas, Texas")
+	lat, long := GetGeocodeLocation("Dallas, Texas")
+	fmt.Println(lat, ",", long)
 }
