@@ -45,7 +45,7 @@ func GetGeocodeLocation(s string) (float64, float64) {
 	return latitude, longitude
 }
 
-func FindARestaurant(mealType string, location string) []Details {
+func findARestaurant(mealType string, location string) []Details {
 
 	var foursquare_client_id = "PQSPJYQ4ODOORBDB51EQTURIFOQT0PACPFQI2UN0G0P00DAF"
 	var foursquare_client_secret = "3ZUE0PGPDY2KV4UFPWEQGLZ4GNDWC2PZHFTX40CKZTCIA3LP"
@@ -113,4 +113,8 @@ func FindARestaurant(mealType string, location string) []Details {
 	}
 
 	return AppendData
+}
+
+func FindARestaurant(mealType string, location string) []Details {
+	return findARestaurant(mealType, location)
 }
