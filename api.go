@@ -14,7 +14,7 @@ type Details struct {
 	Image  string
 }
 
-func GetGeocodeLocation(s string) (float64, float64) {
+func GetGeocodeLocation(s string) []float64 {
 	google_api_key := "AIzaSyAcKRO63SCy87HvebSXO0v6Gjp444PwNG8"
 	locationString := strings.ReplaceAll(s, " ", "+")
 	url := ("https://maps.googleapis.com/maps/api/geocode/json?address=" + locationString + "&key=" + google_api_key)
@@ -22,6 +22,8 @@ func GetGeocodeLocation(s string) (float64, float64) {
 	if err != nil {
 		panic("Error retreiving response")
 	}
+
+	var Coordinates []float64
 
 	body, err2 := ioutil.ReadAll(response.Body)
 	if err2 != nil {
@@ -42,7 +44,8 @@ func GetGeocodeLocation(s string) (float64, float64) {
 			}
 		}
 	}
-	return latitude, longitude
+	Coordinates = append(Coordinates, latitude, longitude)
+	return Coordinates
 }
 
 func findARestaurant(mealType string, location string) []Details {
@@ -50,9 +53,9 @@ func findARestaurant(mealType string, location string) []Details {
 	var foursquare_client_id = "PQSPJYQ4ODOORBDB51EQTURIFOQT0PACPFQI2UN0G0P00DAF"
 	var foursquare_client_secret = "3ZUE0PGPDY2KV4UFPWEQGLZ4GNDWC2PZHFTX40CKZTCIA3LP"
 
-	latitude, longitude := GetGeocodeLocation(location)
-	lat := fmt.Sprintf("%f", latitude)
-	long := fmt.Sprintf("%f", longitude)
+	Coordinates := GetGeocodeLocation(location)
+	lat := fmt.Sprintf("%f", Coordinates[0])
+	long := fmt.Sprintf("%f", Coordinates[1])
 	var AppendData []Details
 	var restaurantInfo Details
 
