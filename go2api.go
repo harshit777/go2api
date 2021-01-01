@@ -42,15 +42,16 @@ func GetGeocodeLocation(s string) (float64, float64) {
 	return latitude, longitude
 }
 
-func FindARestaurant(mealType string, location string) {
+func FindARestaurant(mealType string, location string) map[string]interface{} {
 
 	latitude, longitude := GetGeocodeLocation(location)
 	lat := fmt.Sprintf("%f", latitude)
 	long := fmt.Sprintf("%f", longitude)
+	var restaurantInfo map[string]interface{}
 
 	url := "https://api.foursquare.com/v2/venues/search?client_id=" + foursquare_client_id + "&client_secret=" + foursquare_client_secret + "&v=20130815&ll=" + lat + "," + long + "&query=" + mealType
 
-	//fmt.Println(url)
+	fmt.Println(url)
 	resp, err := http.Get(url)
 	if err != nil {
 		panic("Error")
@@ -98,15 +99,16 @@ func FindARestaurant(mealType string, location string) {
 
 			}
 
-			restaurantInfo := map[string]interface{}{
+			restaurantInfo = map[string]interface{}{
 				"name":    rest_name,
 				"address": rest_address,
 				"image":   imageURL}
 
-			fmt.Println(restaurantInfo)
-			fmt.Println()
-			fmt.Println()
+			// fmt.Println(string(body))
+			// fmt.Println()
+			// fmt.Println()
 
 		}
 	}
+	return restaurantInfo
 }
