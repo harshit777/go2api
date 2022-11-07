@@ -1,4 +1,4 @@
-package main
+package restaurant
 
 import (
 	"encoding/json"
@@ -15,6 +15,7 @@ func FindARestaurant(mealType string, location string) {
 	latitude, longitude := GetGeocodeLocation(location)
 	lat := fmt.Sprintf("%f", latitude)
 	long := fmt.Sprintf("%f", longitude)
+	fmt.Println("lat, long", lat, long)
 
 	url := "https://api.foursquare.com/v2/venues/search?client_id=" + foursquare_client_id + "&client_secret=" + foursquare_client_secret + "&v=20130815&ll=" + lat + "," + long + "&query=" + mealType
 

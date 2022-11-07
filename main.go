@@ -1,5 +1,9 @@
 package main
 
+import (
+	res "restaurant"
+)
+
 func main() {
-	FindARestaurant("Pizza", "Pune, India")
+	res.FindARestaurant("Pizza", "Pune")
 }

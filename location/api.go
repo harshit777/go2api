@@ -1,14 +1,16 @@
-package main
+package location
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
 )
 
 func GetGeocodeLocation(s string) (float64, float64) {
-	google_api_key := "AIzaSyAcKRO63SCy87HvebSXO0v6Gjp444PwNG8"
+	s = "Pune"
+	google_api_key := "AIzaSyBbYbzs6TLmoG8TjOa4vKqUbSLecdahi_s"
 	locationString := strings.ReplaceAll(s, " ", "+")
 	url := ("https://maps.googleapis.com/maps/api/geocode/json?address=" + locationString + "&key=" + google_api_key)
 	response, err := http.Get(url)
@@ -35,5 +37,6 @@ func GetGeocodeLocation(s string) (float64, float64) {
 			}
 		}
 	}
+	fmt.Println("Longituude and latitude", latitude, longitude)
 	return latitude, longitude
 }
