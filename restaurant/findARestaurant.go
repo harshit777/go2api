@@ -5,17 +5,23 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+
+	loc "github.com/go2api/location"
 )
 
-var foursquare_client_id = "PQSPJYQ4ODOORBDB51EQTURIFOQT0PACPFQI2UN0G0P00DAF"
-var foursquare_client_secret = "3ZUE0PGPDY2KV4UFPWEQGLZ4GNDWC2PZHFTX40CKZTCIA3LP"
+type BuildResponse struct {
+	Name    string   `json:"name"`
+	Address []string `json:"address"`
+	Image   string   `json:"image"`
+}
 
-func FindARestaurant(mealType string, location string) {
+var response []BuildResponse
 
-	latitude, longitude := GetGeocodeLocation(location)
+func FindARestaurant(mealType string, location string) []BuildResponse {
+
+	latitude, longitude := loc.GetGeocodeLocation(location)
 	lat := fmt.Sprintf("%f", latitude)
 	long := fmt.Sprintf("%f", longitude)
-	fmt.Println("lat, long", lat, long)
 
 	url := "https://api.foursquare.com/v2/venues/search?client_id=" + foursquare_client_id + "&client_secret=" + foursquare_client_secret + "&v=20130815&ll=" + lat + "," + long + "&query=" + mealType
 
@@ -67,15 +73,17 @@ func FindARestaurant(mealType string, location string) {
 
 			}
 
-			restaurantInfo := map[string]interface{}{
-				"name":    rest_name,
-				"address": rest_address,
-				"image":   imageURL}
+			restaurantInfo := BuildResponse{
+				Name:  rest_name.(string),
+				Image: imageURL,
+			}
 
-			fmt.Println(restaurantInfo)
-			fmt.Println()
-			fmt.Println()
-
+			for _, v := range rest_address.([]interface{}) {
+				valStr := fmt.Sprintf("%v", v)
+				restaurantInfo.Address = append(restaurantInfo.Address, valStr)
+			}
+			response = append(response, restaurantInfo)
 		}
 	}
+	return response
 }

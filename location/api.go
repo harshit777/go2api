@@ -9,8 +9,7 @@ import (
 )
 
 func GetGeocodeLocation(s string) (float64, float64) {
-	s = "Pune"
-	google_api_key := "AIzaSyBbYbzs6TLmoG8TjOa4vKqUbSLecdahi_s"
+
 	locationString := strings.ReplaceAll(s, " ", "+")
 	url := ("https://maps.googleapis.com/maps/api/geocode/json?address=" + locationString + "&key=" + google_api_key)
 	response, err := http.Get(url)
