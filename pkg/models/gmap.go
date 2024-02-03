@@ -1,4 +1,4 @@
-package location
+package models
 
 import (
 	"encoding/json"
@@ -6,12 +6,15 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+
+	"go2api/cmd/api"
 )
 
 func GetGeocodeLocation(s string) (float64, float64) {
+	GMAP_API_KEY := api.Google_Map_API_KEY
 
 	locationString := strings.ReplaceAll(s, " ", "+")
-	url := ("https://maps.googleapis.com/maps/api/geocode/json?address=" + locationString + "&key=" + google_api_key)
+	url := ("https://maps.googleapis.com/maps/api/geocode/json?address=" + locationString + "&key=" + GMAP_API_KEY)
 	response, err := http.Get(url)
 	if err != nil {
 		panic("Error retreiving response")
@@ -36,6 +39,6 @@ func GetGeocodeLocation(s string) (float64, float64) {
 			}
 		}
 	}
-	fmt.Println("Longituude and latitude", latitude, longitude)
+	fmt.Printf("Latitude: %v and Longitude: %v", latitude, longitude)
 	return latitude, longitude
 }
