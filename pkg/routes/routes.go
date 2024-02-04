@@ -6,13 +6,22 @@ import (
 	"net/http"
 
 	"go2api/pkg/models"
+	"go2api/pkg/templates"
 )
 
-func IndexHandler(w http.ResponseWriter, r *http.Request) {
+type Handler struct {
+	Template templates.Templater
+}
+
+func (h *Handler) IndexHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Welcome :)")
 }
 
-func FindPlacesHandler(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) FindPlacesFirstPageHandler(w http.ResponseWriter, r *http.Request) {
+	h.Template.ExecuteTemplate(w, "index.html", nil)
+}
+
+func (h *Handler) FindPlacesHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	place := r.URL.Query().Get("place")
