@@ -21,7 +21,12 @@ const (
 	GET string = http.MethodGet
 )
 
-func FindPlaces(mealType string, location string) []BuildResponse {
+var categoriesCode map[string]string = map[string]string{
+	"Café":       "13032", // Cafe, Coffee, and Tea House
+	"Restaurant": "13065", // Restaurant
+}
+
+func FindPlaces(placeType string, location string) []BuildResponse {
 	FSQ_API_KEY := api.Foursquare_API_KEY
 
 	var responses []BuildResponse
@@ -37,7 +42,7 @@ func FindPlaces(mealType string, location string) []BuildResponse {
 	long := fmt.Sprintf("%f", longitude)
 
 	queryParams := map[string]string{
-		"categories": "13034", // Cafe
+		"categories": categoriesCode[placeType],
 		"ll":         strings.Join([]string{lat, long}, ","),
 		"radius":     "500",
 		"sort":       "DISTANCE",

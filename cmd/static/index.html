@@ -8,5 +8,21 @@
 </head>
 <body>
     <h1>Where do you want to go?</h1>
+
+    <form action="/places" method="get">
+        <label for="place">Place Type:</label>
+        <select name="place">
+          <option value="Restaurant">Restaurant</option>
+          <option value="Café">Café</option>
+        </select>
+        <br><br>
+        <label for="area">Area:</label>
+        <select name="area">
+          <option value="BTS Ari">BTS Ari</option>
+          <option value="BTS Thong Lo">BTS Thong Lo</option>
+        </select>
+        <br><br>
+        <input type="submit" value="Submit">
+      </form>
 </body>
 </html>
