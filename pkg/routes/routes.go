@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -22,12 +21,17 @@ func (h *Handler) FindPlacesFirstPageHandler(w http.ResponseWriter, r *http.Requ
 }
 
 func (h *Handler) FindPlacesHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "text/html")
 
 	place := r.URL.Query().Get("place")
 	area := r.URL.Query().Get("area")
 
 	responseData := models.FindPlaces(place, area)
 
-	json.NewEncoder(w).Encode(responseData)
+	err := h.Template.ExecuteTemplate(w, "places_list.html", responseData)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		return
+	}
 }

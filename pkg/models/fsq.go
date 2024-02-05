@@ -11,10 +11,10 @@ import (
 	"go2api/cmd/api"
 )
 
-type BuildResponse struct {
-	Name    string   `json:"name"`
-	Address []string `json:"address"`
-	Image   string   `json:"image"`
+type Place struct {
+	Name    string `json:"name"`
+	Address string `json:"address"`
+	Image   string `json:"image"`
 }
 
 const (
@@ -26,10 +26,10 @@ var categoriesCode map[string]string = map[string]string{
 	"Restaurant": "13065", // Restaurant
 }
 
-func FindPlaces(placeType string, location string) []BuildResponse {
+func FindPlaces(placeType string, location string) []Place {
 	FSQ_API_KEY := api.Foursquare_API_KEY
 
-	var responses []BuildResponse
+	var places []Place
 
 	fsqSearchBaseURL := "https://api.foursquare.com/v3/places/search"
 	req, err := http.NewRequest(GET, fsqSearchBaseURL, nil)
@@ -111,18 +111,16 @@ func FindPlaces(placeType string, location string) []BuildResponse {
 		}
 
 		if imageURL == "" {
-			imageURL = "http://pixabay.com/get/8926af5eb597ca51ca4c/1433440765/cheeseburger-34314_1280.png?direct"
+			imageURL = "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
 		}
 
-		restaurantInfo := BuildResponse{
-			Name:  rest_name,
-			Image: imageURL,
-		}
-
-		restaurantInfo.Address = append(restaurantInfo.Address, rest_address)
-		responses = append(responses, restaurantInfo)
+		places = append(places, Place{
+			Name:    rest_name,
+			Address: rest_address,
+			Image:   imageURL,
+		})
 	}
 
 	fmt.Println("process finished")
-	return responses
+	return places
 }
