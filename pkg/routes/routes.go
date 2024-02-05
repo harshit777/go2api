@@ -25,8 +25,10 @@ func (h *Handler) FindPlacesHandler(w http.ResponseWriter, r *http.Request) {
 
 	place := r.URL.Query().Get("place")
 	area := r.URL.Query().Get("area")
+	radius := r.URL.Query().Get("radius")
+	sortedBy := r.URL.Query().Get("sort")
 
-	responseData := models.FindPlaces(place, area)
+	responseData := models.FindPlaces(place, area, radius, sortedBy)
 
 	err := h.Template.ExecuteTemplate(w, "places_list.html", responseData)
 	if err != nil {

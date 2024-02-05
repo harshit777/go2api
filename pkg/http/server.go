@@ -33,7 +33,12 @@ func initRouter() *mux.Router {
 	router.HandleFunc("/", handler.IndexHandler).
 		Methods(GET)
 	router.HandleFunc("/places", handler.FindPlacesHandler).
-		Queries("place", "{place-type}", "area", "{area-name}").
+		Queries(
+			"place", "{place}",
+			"area", "{area}",
+			"radius", "{radius:[0-9]+}",
+			"sort", "{sort}",
+		).
 		Methods(GET)
 	router.HandleFunc("/places", handler.FindPlacesFirstPageHandler).
 		Methods(GET)

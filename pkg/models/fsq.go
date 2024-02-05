@@ -26,7 +26,7 @@ var categoriesCode map[string]string = map[string]string{
 	"Restaurant": "13065", // Restaurant
 }
 
-func FindPlaces(placeType string, location string) []Place {
+func FindPlaces(placeType, location, radius, sortedBy string) []Place {
 	FSQ_API_KEY := api.Foursquare_API_KEY
 
 	var places []Place
@@ -44,8 +44,8 @@ func FindPlaces(placeType string, location string) []Place {
 	queryParams := map[string]string{
 		"categories": categoriesCode[placeType],
 		"ll":         strings.Join([]string{lat, long}, ","),
-		"radius":     "500",
-		"sort":       "DISTANCE",
+		"radius":     radius,
+		"sort":       sortedBy,
 	}
 
 	q := req.URL.Query()
