@@ -8,9 +8,15 @@ import (
 	"strings"
 
 	"go2api/cmd/api"
+	"go2api/pkg/db"
 )
 
 func GetGeocodeLocation(s string) (float64, float64) {
+	cachedLatitude, cachedLongitude, cacheExist := db.QueryGeocode(s)
+	if cacheExist {
+		return cachedLatitude, cachedLongitude
+	}
+
 	GMAP_API_KEY := api.Google_Map_API_KEY
 
 	locationString := strings.ReplaceAll(s, " ", "+")
@@ -40,5 +46,8 @@ func GetGeocodeLocation(s string) (float64, float64) {
 		}
 	}
 	fmt.Printf("Latitude: %v and Longitude: %v", latitude, longitude)
+
+	db.AddNewGeocode(s, latitude, longitude)
+
 	return latitude, longitude
 }
