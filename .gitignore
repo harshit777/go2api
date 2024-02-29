@@ -1,2 +1,2 @@
-restaurant/secrets.go
-location/secrets.go
+.env
+/cmd/db
